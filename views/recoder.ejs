@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recoder - agendamento de equipamentos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+</head>
+<body>
+    <video src="" id="video" style="width:680px;height:320px;" autoplay="true" controls></video>
+  <!-- El canvas obtine las imagenes de la camara que se transmiten -->
+  <canvas style="display:none;" id="preview"></canvas>
+  <!-- para saber si la camara esta activa -->
+  <div id = "logger"></div>
+
+  <script type="text/javascript">
+    var canvas = document.getElementById("preview");
+    var context = canvas.getContext("2d");
+
+    canvas.width = 320;
+    canvas.height = 240;
+
+    context.width = canvas.width;
+    context.height = canvas.height;
+
+    var video = document.getElementById("video");
+    var socket = io();
+
+    function logger(msg)
+    {
+      $("#logger").text(msg);
+    }
+      function arrayBufferToBase64 ( buffer, type ) {
+        var binary = '';
+        var bytes = new Uint8Array( buffer );
+        var len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+            binary += String.fromCharCode( bytes[ i ] );
+        }
+        if (type == "video"){
+            return 'data:video/webm;base64,' + window.btoa( binary );
+        }
+        else{
+            return 'data:image/png;base64,' + window.btoa( binary )
+        }
+    }
+
+    function loadCam(stream)
+    {
+      
+      video.srcObject = stream;
+      console.log(encodeURIComponent(stream));
+      var media = new MediaRecorder(stream);
+      media.ondataavailable = function(e){
+        e.data.arrayBuffer().then(buffer =>{
+          var url = window.URL.createObjectURL(e.data);
+          socket.emit('stream', {image: canvas.toDataURL('image/webp'),audio: e.data});          
+        });
+      }
+      media.start(100);
+      logger('camara cargada correctamente [OK]');
+    }
+
+    function loadFail()
+    {
+      logger('Camara no encontrada, revise la camara');
+    }
+    
+    function viewVideo(video,context)
+    {
+      context.drawImage(video,0,0,context.width, context.height);
+      //para trasmitir las imagenes como cadena,  webp es un formato parecido a png
+
+      //socket.emit('stream',{image: canvas.toDataURL('image/webp'),audio: new Blob([video.srcObject], {type: ''})});
+    }
+
+    $(function(){
+      navigator.getUserMedia= (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msgGetUserMedia);
+      if(navigator.getUserMedia)
+      {
+        navigator.getUserMedia({video : true, audio: true},loadCam,loadFail);
+      }
+      setInterval(function(){
+        viewVideo(video,context);
+      },120);
+    });
+
+  </script>
+</body>
+</html>

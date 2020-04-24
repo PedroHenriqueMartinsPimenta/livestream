@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live - agendamento de equipamentos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+</head>
+<body>
+  <img id="player">
+  <div id="logger"></div><br>
+  video:
+  <video src="" autoplay style="display: none;"  id="play">
+  </video>
+  <script>
+    var socket = io();
+    socket.binaryType = "arraybuffer"; 
+    socket.on('stream',function(data){
+      var array = new Uint8Array(data);
+      var blob = new Blob([array], {type:'video/webm'});
+      var url = window.URL.createObjectURL(blob);
+      console.log(url);
+      document.querySelector('#player').src = data.image;
+      document.querySelector('video').src = url;
+    });
+  </script>
+</body>
+</html>
