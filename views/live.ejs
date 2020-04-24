@@ -17,7 +17,6 @@
     var socket = io();
     socket.binaryType = "arraybuffer"; 
     socket.on('stream',function(data){
-      console.log(url);
       document.querySelector('#player').src = data.image;
     });
   </script>
