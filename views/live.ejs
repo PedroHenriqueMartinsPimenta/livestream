@@ -17,12 +17,8 @@
     var socket = io();
     socket.binaryType = "arraybuffer"; 
     socket.on('stream',function(data){
-      var array = new Uint8Array(data);
-      var blob = new Blob([array], {type:'video/webm'});
-      var url = window.URL.createObjectURL(blob);
       console.log(url);
       document.querySelector('#player').src = data.image;
-      document.querySelector('video').src = url;
     });
   </script>
 </body>
