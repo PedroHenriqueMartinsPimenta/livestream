@@ -74,7 +74,7 @@
     };
   
     navigator.mediaDevices.getUserMedia({
-      audio: false,
+      audio: true,
       video: true,
     }).then(stream => {
       // Display your local video in #localVideo element
