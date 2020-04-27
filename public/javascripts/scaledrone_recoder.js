@@ -10,9 +10,9 @@ if (!location.hash) {
   // Room name needs to be prefixed with 'observable-'
   const roomName = 'observable-' + roomHash;
   const configuration = {
-    iceServers: [{
-      urls: 'stun:stun.l.google.com:19302'
-    }]
+      iceServers: [{
+        urls: 'stun:stun.l.google.com:19302'
+      }]
   };
   let room;
   let pc;
@@ -38,7 +38,7 @@ if (!location.hash) {
     room.on('members', members => {
       console.log('MEMBERS', members);
       // If we are the second user to connect to the room we will be creating the offer
-      const isOfferer = members.length;
+      const isOfferer = false;
       startWebRTC(isOfferer);
     });
   });
