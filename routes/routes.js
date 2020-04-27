@@ -6,16 +6,13 @@ routes.get('/', function(req, res){
     res.render('index');
 });
 
-routes.get('/recoder/:id', function(req, res){
+routes.get('/recorder/', function(req, res){
     res.render('recoder');
 });
 
-routes.get('/live/:id', function(req, res){
+routes.get('/live/', function(req, res){
     res.render('live');
 });
 
-routes.get('/test/:movieName', function(req, res){
-    
-});
 
 module.exports = routes;

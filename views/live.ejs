@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live - agendamento de equipamentos</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <style>
+    body{
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    @media only screen and (max-width: 600px) {
+         #remoteVideo{
+             width:100%;
+         }
+         #localVideo{
+           width: 30%;
+         }
+     }
+ </style>   
 </head>
 <body>
-  <img id="player">
-  <div id="logger"></div><br>
-  video:
-  <video src="" autoplay style="display: none;"  id="play">
-  </video>
-  <script>
-    var socket = io();
-    socket.binaryType = "arraybuffer"; 
-    socket.on('stream',function(data){
-      document.querySelector('#player').src = data.image;
-    });
-  </script>
+  <div class="copy">Live - Agendamento de equipamentos</div>
+  <video id="remoteVideo" autoplay width="50%"></video>
+  <video id="localVideo" autoplay muted width="10%"></video>
+  <script src="/javascripts/scaledrone.js"></script>
 </body>
 </html>
