@@ -38,7 +38,7 @@ if (!location.hash) {
     room.on('members', members => {
       console.log('MEMBERS', members);
       // If we are the second user to connect to the room we will be creating the offer
-      const isOfferer = false;
+      const isOfferer = true;
       startWebRTC(isOfferer);
     });
   });
