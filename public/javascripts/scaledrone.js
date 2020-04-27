@@ -73,7 +73,7 @@
       }
     };
   
-    navigator.mediaDevices.getUserMedia({
+    navigator.getUserMedia({
       audio: true,
       video: true,
     }).then(stream => {
